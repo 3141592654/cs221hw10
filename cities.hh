@@ -7,7 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
+#include <random>
 
 // Representation of an ordering of cities
 class Cities {

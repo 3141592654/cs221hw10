@@ -11,6 +11,7 @@
 #include <cassert>
 #include <numeric>
 #include <random>
+#include <iostream>  // REMOVE ME   
 
 //////////////////////////////////////////////////////////////////////////////
 // Generate a Deme of the specified size with all-random chromosomes.
@@ -20,10 +21,10 @@ Deme::Deme(const Cities* cities_ptr, unsigned pop_size, double mut_rate)
 {
   // Create random Climb_Chromosomes and put into population vector
   for (auto& cp : pop_) {
-    cp = new Chromosome(cities_ptr);
+    cp = new Climb_Chromosome(cities_ptr);
   }
-  // Taken from my solution. Seed the random number generator with 6*9.
-  generator_ = std::default_random_engine(42);
+  // Taken from my solution. Seed the random number generator with 6*9||0.
+  generator_ = std::default_random_engine(420);
 }
 
 // Clean up as necessary
@@ -53,9 +54,11 @@ void Deme::compute_next_generation()
 
     static std::uniform_real_distribution<> dist(0.0, 1.0);
     if (dist(generator_) <= mut_rate_) {
+ //      std::cout << "mutating\n";
       p1->mutate();
     }
     if (dist(generator_) <= mut_rate_) {
+ //      std::cout << "mutating\n";
       p2->mutate();
     }
 

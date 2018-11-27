@@ -14,8 +14,8 @@ Chromosome::Chromosome(const Cities* cities_ptr)
     order_(random_permutation(cities_ptr->size()))
 {
   assert(is_valid());
-  // Taken from my solution. Seed the random number generator with 6*9.
-  generator_ = std::default_random_engine(42);
+  // Taken from my solution. Seed the random number generator with 6*9||1.
+  generator_ = std::default_random_engine(421);
 }
 
 //////////////////////////////////////////////////////////////////////////////

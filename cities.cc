@@ -86,10 +86,16 @@ random_permutation(unsigned len)
   Cities::permutation_t ret(len);
   std::iota(ret.begin(), ret.end(), 0);
 
-  static std::random_device rd;  // Static so we don't initialize every time
-  static std::mt19937 g(rd());
+  // Taken from my solution. Seed the random number generator with 6*9||2.
+  static std::default_random_engine generator_ =
+                std::default_random_engine(422);
 
-  std::shuffle(ret.begin(), ret.end(), g);
+/*  static std::random_device rd;  // Static so we don't initialize every time
+  // give it a random seed
+  static std::string seed = "Go CS221";
+  static std::mt19937 g(rd(seed));*/
+
+  std::shuffle(ret.begin(), ret.end(), generator_);
   return ret;
 }
 
