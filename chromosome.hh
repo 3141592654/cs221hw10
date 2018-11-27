@@ -61,6 +61,18 @@ class Chromosome {
     return order_;
   }
 
+  // Cross-pollination from my solution
+  // If the customer requests an operation on two chromosomes which point to
+  // different cities, bad things are going to happen. This method allows the
+  // customer to check for this. It is possible that the operation is still
+  // valid even if this returns false. The two different cities could be copies
+  // of each other, for instance. But the customer really shouldn't construct
+  // their chromosomes in that way.
+  bool compare_cities_ptr(const Cities* const arg) const {
+    return arg == cities_ptr_;
+  }
+
+
  protected:
   // For an ordered set of parents, return a child using the ordered crossover.
   // The child will have the same values as p1 in the range [begin,end),

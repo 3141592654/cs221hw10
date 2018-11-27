@@ -4,7 +4,7 @@
  */
 
 #include "cities.hh"
-#include "chromosome.hh"
+#include "climb_chromosome.hh"  //HERE GOES...
 #include "deme.hh"
 
 #include <algorithm>
@@ -18,10 +18,12 @@
 Deme::Deme(const Cities* cities_ptr, unsigned pop_size, double mut_rate)
  : pop_(pop_size), mut_rate_(mut_rate)
 {
-  // Create random Chromosomes and put into population vector
+  // Create random Climb_Chromosomes and put into population vector
   for (auto& cp : pop_) {
     cp = new Chromosome(cities_ptr);
   }
+  // Taken from my solution. Seed the random number generator with 6*9.
+  generator_ = std::default_random_engine(42);
 }
 
 // Clean up as necessary

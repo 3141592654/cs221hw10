@@ -14,6 +14,8 @@ Chromosome::Chromosome(const Cities* cities_ptr)
     order_(random_permutation(cities_ptr->size()))
 {
   assert(is_valid());
+  // Taken from my solution. Seed the random number generator with 6*9.
+  generator_ = std::default_random_engine(42);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -41,8 +43,13 @@ Chromosome::recombine(const Chromosome* other)
 {
   assert(is_valid());
   assert(other->is_valid());
+  // Cross-pollination from my solution
+  // Assert that the other chromosome points to the same cities as this one
+  // does, because if it doesn't bad stuff is going to happen.
+  assert(other->compare_cities_ptr(cities_ptr_));
 
   // need to include size() because create_crossover_child takes [b, e):
+  // BUG POSSIBLY HERE??? order_.size() -1 SEEMS BETTER
   std::uniform_int_distribution<int> dist(0, order_.size());
 
   // Pick two random indices such that b <= e:
