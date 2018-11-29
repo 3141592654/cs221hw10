@@ -4,15 +4,12 @@
 
 #include <algorithm>
 #include <cassert>
-
 #include "chromosome.hh"
 
 //////////////////////////////////////////////////////////////////////////////
 // Generate a completely random permutation from a list of cities
-Chromosome::Chromosome(const Cities* cities_ptr)
-  : cities_ptr_(cities_ptr),
-    order_(random_permutation(cities_ptr->size()))
-{
+Chromosome::Chromosome(const Cities* cities_ptr) : cities_ptr_(cities_ptr),
+    order_(random_permutation(cities_ptr->size())) {
   assert(is_valid());
   // Taken from my solution. Seed the random number generator with 6*9||1.
   generator_ = std::default_random_engine(421);
@@ -20,16 +17,13 @@ Chromosome::Chromosome(const Cities* cities_ptr)
 
 //////////////////////////////////////////////////////////////////////////////
 // Clean up as necessary
-Chromosome::~Chromosome()
-{
+Chromosome::~Chromosome() {
   assert(is_valid());
 }
 
 //////////////////////////////////////////////////////////////////////////////
 // Perform a single mutation on this chromosome
-void
-Chromosome::mutate()
-{
+void Chromosome::mutate() {
   std::uniform_int_distribution<int> dist(0, order_.size() - 1);
   std::swap(order_[dist(generator_)], order_[dist(generator_)]);
   assert(is_valid());
@@ -39,8 +33,7 @@ Chromosome::mutate()
 // Return a pair of offsprings by recombining with another chromosome
 // Note: this method allocates memory for the new offsprings
 std::pair<Chromosome*, Chromosome*>
-Chromosome::recombine(const Chromosome* other)
-{
+Chromosome::recombine(const Chromosome* other) {
   assert(is_valid());
   assert(other->is_valid());
   // Cross-pollination from my solution
@@ -49,8 +42,7 @@ Chromosome::recombine(const Chromosome* other)
   assert(other->compare_cities_ptr(cities_ptr_));
 
   // need to include size() because create_crossover_child takes [b, e):
-  // BUG POSSIBLY HERE??? order_.size() -1 SEEMS BETTER
-  std::uniform_int_distribution<int> dist(0, order_.size());
+  std::uniform_int_distribution<int> dist(0, order_.size()-1);
 
   // Pick two random indices such that b <= e:
   auto r1 = dist(generator_);
@@ -68,10 +60,9 @@ Chromosome::recombine(const Chromosome* other)
 // For an ordered set of parents, return a child using the ordered crossover.
 // The child will have the same values as p1 in the range [b,e),
 // and all the other values in the same order as in p2.
-Chromosome*
-Chromosome::create_crossover_child(const Chromosome* p1, const Chromosome* p2,
-                                   unsigned b, unsigned e) const
-{
+Chromosome* Chromosome::create_crossover_child(const Chromosome* p1, const
+                           Chromosome* p2, unsigned b, unsigned e) const {
+// again, this is the revised solution.
   const unsigned len = p1->order_.size();
   assert(len == p2->order_.size());
   Chromosome* child = p1->clone();
@@ -79,7 +70,6 @@ Chromosome::create_crossover_child(const Chromosome* p1, const Chromosome* p2,
   // We iterate over both parents separately, copying from parent1 if the
   // value is within [b,e) and from parent2 otherwise
   unsigned i = 0, j = 0;
-
 
   for ( ; i < len && j < len; ++i) {
     if (i >= b and i < e) {
@@ -95,7 +85,6 @@ Chromosome::create_crossover_child(const Chromosome* p1, const Chromosome* p2,
     }
   }
 
-
   assert(child->is_valid());
   return child;
 }
@@ -103,20 +92,16 @@ Chromosome::create_crossover_child(const Chromosome* p1, const Chromosome* p2,
 //////////////////////////////////////////////////////////////////////////////
 // Return a positive fitness value, with higher numbers representing
 // fitter solutions (shorter total-city traversal path).
-double
-Chromosome::get_fitness() const
-{
+double Chromosome::get_fitness() const {
   return 1.0 / (1 + calculate_total_distance());
 }
 
 //////////////////////////////////////////////////////////////////////////////
 // A chromsome is valid if it has no repeated values in its permutation,
 // as well as no indices above the range (length) of the chromosome.
-// We implement this check with a histogram of indices, rejecting the chromosome
-// if any index appears less or more times than exactly one.
-bool
-Chromosome::is_valid() const
-{
+// We implement this check with a histogram of indices, rejecting the
+// chromosome if any index appears less or more times than exactly one.
+bool Chromosome::is_valid() const {
   const auto len = order_.size();
   std::vector<unsigned> counts(len, 0);
 
@@ -137,8 +122,7 @@ Chromosome::is_valid() const
 // Returns true if value is within the specified the range specified
 // [begin, end) and false otherwise.
 bool
-Chromosome::is_in_range(unsigned value, unsigned begin, unsigned end) const
-{
+Chromosome::is_in_range(unsigned value, unsigned begin, unsigned end) const {
   const auto last = order_.cbegin() + end;
   return std::find(order_.cbegin() + begin, last, value) != last;
 }
