@@ -43,7 +43,7 @@ Chromosome::recombine(const Chromosome* other) {
   // does, because if it doesn't bad stuff is going to happen.
   assert(other->compare_cities_ptr(cities_ptr_));
   // need to include size() because create_crossover_child takes [b, e):
-  std::uniform_int_distribution<int> dist(0, order_.size());
+  std::uniform_int_distribution<int> dist(0, order_.size()-1);
 
   // Pick two random indices such that b <= e:
   auto r1 = dist(generator_);
