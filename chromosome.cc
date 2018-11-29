@@ -53,7 +53,9 @@ Chromosome::recombine(const Chromosome* other)
   std::uniform_int_distribution<int> dist(0, order_.size());
 
   // Pick two random indices such that b <= e:
-  auto [b, e] = std::minmax(dist(generator_), dist(generator_));
+  auto r1 = dist(generator_);
+  auto r2 = dist(generator_);
+  auto [b, e] = std::minmax(r1, r2);
 
   // Make children:
   auto child1 = create_crossover_child(this, other, b, e);
@@ -70,13 +72,16 @@ Chromosome*
 Chromosome::create_crossover_child(const Chromosome* p1, const Chromosome* p2,
                                    unsigned b, unsigned e) const
 {
+  const unsigned len = p1->order_.size();
+  assert(len == p2->order_.size());
   Chromosome* child = p1->clone();
 
   // We iterate over both parents separately, copying from parent1 if the
   // value is within [b,e) and from parent2 otherwise
   unsigned i = 0, j = 0;
 
-  for ( ; i < p1->order_.size() && j < p2->order_.size(); ++i) {
+
+  for ( ; i < len && j < len; ++i) {
     if (i >= b and i < e) {
       child->order_[i] = p1->order_[i];
     }
@@ -84,11 +89,12 @@ Chromosome::create_crossover_child(const Chromosome* p1, const Chromosome* p2,
       while (p1->is_in_range(p2->order_[j], b, e)) {
         ++j;
       }
-      assert(j < p2->order_.size());
+      assert(j < len);
       child->order_[i] = p2->order_[j];
       j++;
     }
   }
+
 
   assert(child->is_valid());
   return child;
