@@ -4,14 +4,11 @@
 
 #include <algorithm>
 #include <cassert>
-#include <iostream>  // REMOVE ME
-
 #include "climb_chromosome.hh"
 
 //////////////////////////////////////////////////////////////////////////////
 // Perform a single mutation on this chromosome
 void Climb_Chromosome::mutate() {
-  std::cout << "Stuff from climb_chromosome is running!\n";
   double old_fitness = get_fitness();
   static std::uniform_int_distribution<int> dist(0, order_.size() - 1);
   int p = dist(generator_);

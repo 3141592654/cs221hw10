@@ -29,7 +29,9 @@ class Chromosome {
   // This method allocates memory for the newly created chromosome.
   // It is the caller's responsibility to free this memory.
   virtual Chromosome* clone() const {
-    return new Chromosome(cities_ptr_);
+    Chromosome* retval = new Chromosome(cities_ptr_);
+    retval->order_ = order_;
+    return retval;
   }
 
   // Clean up as necessary

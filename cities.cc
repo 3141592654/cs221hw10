@@ -6,7 +6,6 @@
 #include <fstream>
 #include <numeric>
 #include <random>
-
 #include "cities.hh"
 
 
