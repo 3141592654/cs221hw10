@@ -24,4 +24,7 @@ class Climb_Chromosome: public Chromosome {
 
   // Perform a single mutation on this chromosome
   void mutate();
+
+  // Finds a relatively good path by climbing hills.
+  void climb_hill();
 };
