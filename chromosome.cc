@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 // Generate a completely random permutation from a list of cities
 Chromosome::Chromosome(const Cities* cities_ptr) : cities_ptr_(cities_ptr),
-    order_(random_permutation(cities_ptr->size())) {
+    order_(random_permutation(cities_ptr->size())){
   assert(is_valid());
   // Taken from my solution. Seed the random number generator with 314.
   generator_ = std::default_random_engine(314);
@@ -36,13 +36,13 @@ std::pair<Chromosome*, Chromosome*>
 Chromosome::recombine(const Chromosome* other) {
   assert(is_valid());
   assert(other->is_valid());
+
   // Cross-pollination from my solution
   // Assert that the other chromosome points to the same cities as this one
   // does, because if it doesn't bad stuff is going to happen.
   assert(other->compare_cities_ptr(cities_ptr_));
-
   // need to include size() because create_crossover_child takes [b, e):
-  std::uniform_int_distribution<int> dist(0, order_.size()-1);
+  std::uniform_int_distribution<int> dist(0, order_.size());
 
   // Pick two random indices such that b <= e:
   auto r1 = dist(generator_);

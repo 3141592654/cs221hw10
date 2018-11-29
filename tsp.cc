@@ -100,6 +100,9 @@ Cities::permutation_t ga_search(const Cities& cities,
 
     // Find best individual in this population
     const auto ordering = deme.get_best()->get_ordering();
+//      const auto dist = cities.total_path_distance(ordering);
+
+//    std::cout << dist << "ln\n";
     if (is_improved(cities, ordering, best_dist, i * pop_size)) {
       best_ordering = ordering;
     }
@@ -119,7 +122,7 @@ int main(int argc, char** argv)
   const auto cities = Cities(argv[1]);
   const auto pop_size = atoi(argv[2]);
   const auto mut_rate = atof(argv[3]);
-  constexpr unsigned NUM_ITER = 100000;
+  constexpr unsigned NUM_ITER = 1000;
 
 
 //  const auto best_ordering = exhaustive_search(cities);

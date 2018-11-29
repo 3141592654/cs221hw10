@@ -46,6 +46,27 @@ void Deme::compute_next_generation()
 {
   auto newpop = pop_;
   assert(pop_.size() % 2 == 0 && "Even population size required!");
+  // EXPERIMENTAL:: TO CHANGE BACK, REMOVE UP UNTIL THE FOR LOOP AND SET
+  // INITIAL i TO 2
+/*  auto best = get_best();
+  auto ordering = best.get_ordering();
+  int size = ordering.length();
+  for (int i = 0; i < size; i++) {
+   for (int j = i+1; j < size; j++) {
+    double old_fitness = best->get_fitness();
+    std::swap(order_[i], order_[j]);
+    double new_fitness = get_fitness();
+    if (new_fitness < old_fitness) {
+      // go back to the old fitness
+      std::swap(order_[p], order_[p_minus_one]);
+    } else {
+      // reset and try again
+      i = 0;
+      j = 1;
+    }
+    assert(is_valid());
+   }
+ }*/
 
   for (unsigned i = 0; i < pop_.size(); ) {
     auto p1 = select_parent();
