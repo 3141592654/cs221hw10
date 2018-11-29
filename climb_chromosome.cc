@@ -50,13 +50,8 @@ void Climb_Chromosome::climb_hill() {
   }
   static std::uniform_real_distribution<double> dist(0.0, 1.0);
   double d = dist(generator_);
-//  std::cout<<d<<"=d\n";
-  if (d <= 0.04) {
-//    std::cout<<"randomizing\n";
-//     order_=random_permutation(order_.size());
-//order_(random_permutation(cities_ptr_->size()));
-
-  std::swap(order_[dist(generator_)], order_[dist(generator_)]);
+  if (d <= 0.10) {
+     order_=random_permutation(order_.size());
   }
   assert(is_valid());
 }

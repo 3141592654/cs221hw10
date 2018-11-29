@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <cassert>
 #include "chromosome.hh"
-#include <iostream> // REMOVE ME
 
 //////////////////////////////////////////////////////////////////////////////
 // Generate a completely random permutation from a list of cities
@@ -67,16 +66,12 @@ Chromosome* Chromosome::create_crossover_child(const Chromosome* p1, const
   const unsigned len = p1->order_.size();
   assert(len == p2->order_.size());
   Chromosome* child = p1->clone();
-  assert(child->is_valid());  // SUPERFLUOUS
 
   // We iterate over both parents separately, copying from parent1 if the
   // value is within [b,e) and from parent2 otherwise
   unsigned i = 0, j = 0;
-  std::cout<<"b="<<b<<"e="<<e<<"\n";
-
   for ( ; i < len && j < len; ++i) {
     if (i >= b and i < e) {
-      std::cout<<"adding"<<p1->order_[i]<<"to"<<i<<"\n";
       child->order_[i] = p1->order_[i];
     }
     else { // Increment j as long as its value is in the [b,e) range of p1
@@ -84,7 +79,6 @@ Chromosome* Chromosome::create_crossover_child(const Chromosome* p1, const
         ++j;
       }
       assert(j < len);
-      std::cout<<"adding"<<p2->order_[j]<<"to"<<i<<"\n";
       child->order_[i] = p2->order_[j];
       j++;
     }
@@ -112,20 +106,13 @@ bool Chromosome::is_valid() const {
 
   for (auto v : order_) {
     if (v >= len) {
-//      std::cout<<"line 117\n";
       return false;
     }
     counts[v]++;
-//    std::cout<<v<<" "<<counts[v]<<"\n";
   }
 
   const auto it = std::find_if(counts.cbegin(), counts.cend(),
-      [](auto count){ 
-//      if ((count == 1 ) == false ) {
-//        std::cout<<count<<"line 124\n"; 
-//      }
-      return count != 1;
-      });
+      [](auto count){ return count != 1; });
   return it == counts.end();
 }
 
