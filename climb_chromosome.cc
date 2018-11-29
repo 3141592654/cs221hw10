@@ -11,7 +11,7 @@
 //////////////////////////////////////////////////////////////////////////////
 // Perform a single mutation on this chromosome
 void Climb_Chromosome::mutate() {
-//  std::cout << "Stuff from climb_chromosome is running!\n";
+  std::cout << "Stuff from climb_chromosome is running!\n";
   double old_fitness = get_fitness();
   static std::uniform_int_distribution<int> dist(0, order_.size() - 1);
   int p = dist(generator_);
@@ -22,10 +22,6 @@ void Climb_Chromosome::mutate() {
   if (new_fitness < old_fitness) {
     // go back to the old fitness
     std::swap(order_[p], order_[p_minus_one]);
-  } else {
-//    std::cout << "path length " << 1.0/old_fitness;
-//    std::cout << "\nbetter new path length " << 1.0/new_fitness << "\n";
- 
   }
   assert(is_valid());
 }

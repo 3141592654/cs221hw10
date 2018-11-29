@@ -28,8 +28,7 @@ class Chromosome {
   // Polymorphic creation method from an existing Chromosome.
   // This method allocates memory for the newly created chromosome.
   // It is the caller's responsibility to free this memory.
-  virtual Chromosome* clone() const
-  {
+  virtual Chromosome* clone() const {
     return new Chromosome(cities_ptr_);
   }
 
@@ -46,8 +45,7 @@ class Chromosome {
   recombine(const Chromosome* other);
 
   // Compute total distance to traverse cities in ordering:
-  double calculate_total_distance() const
-  {
+  double calculate_total_distance() const {
     return cities_ptr_->total_path_distance(order_);
   }
 
@@ -56,12 +54,12 @@ class Chromosome {
   virtual double get_fitness() const;
 
   // Return an immutable reference to the city ordering.
-  const Cities::permutation_t& get_ordering() const
-  {
+  const Cities::permutation_t& get_ordering() const {
     return order_;
   }
 
-  // Cross-pollination from my solution
+  // Cross-pollination from my solution. Useful but I don't think it ever got
+  // used.
   // If the customer requests an operation on two chromosomes which point to
   // different cities, bad things are going to happen. This method allows the
   // customer to check for this. It is possible that the operation is still
@@ -92,8 +90,11 @@ class Chromosome {
   // [begin, end) and false otherwise.
   bool is_in_range(unsigned value, unsigned begin, unsigned end) const;
 
-  const Cities* cities_ptr_; // Keep ptr to cities, no need for full copy
-  Cities::permutation_t order_;  // The actual permutation of this chromosome
+  // Keep ptr to cities, no need for full copy
+  const Cities* cities_ptr_;
+  // The actual permutation of this chromosome
+  Cities::permutation_t order_;
 
-  std::default_random_engine generator_; // A random number generator for the various methods
-};
+  // A random number generator for the various methods
+  std::default_random_engine generator_;
+ };

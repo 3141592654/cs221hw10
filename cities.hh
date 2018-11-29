@@ -18,12 +18,13 @@ class Cities {
   // An ordering of the cities in cities_t. Each value represents a unique index
   // into the current city ordering.
   using permutation_t = std::vector<unsigned int>;
+ // Construct from explicit cities
 
   Cities() = default;
-  Cities(const std::vector<coord_t>& cities) // Construct from explicit cities
-   : cities_(cities)
-  {}
-  Cities(const std::string& filename); // Construct by reading from file
+  Cities(const std::vector<coord_t>& cities) : cities_(cities) {}
+
+  // Construct by reading from file
+  Cities(const std::string& filename);
 
   ~Cities() = default;
 

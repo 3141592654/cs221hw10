@@ -23,20 +23,27 @@
 }*/
 
 
-Climb_Chromosome* Tournament_Deme::select_parent() {
-  // WHY CAN'T WE JUST READ IN P CHROMOSOMES AND STORE THE BEST FOUND? IT WILL
-  // USE UP LESS MEMORY AND IS SIMPLER...
+Chromosome* Tournament_Deme::select_parent() {
   // Create a tournament pool with P random parents
+  std::cout << "stuff from tournament deme is running\n";
   unsigned P;
     for (P = 2; P * 6 < pop_.size(); P *=2);  // IDAELLY DO THIS ONLY ONCE. BUT
     //FOR NOW, THERE ARE BIGGER FISH TO FRY.
+  std::cout << "quick brown fox\n";
+  std::cout << P << " is p\n";
+  std::cout << pop_.size() << " is pop\n";
 
-  std::vector<Climb_Chromosome*> tournamentPool;
-  tournamentPool = std::vector<Climb_Chromosome*>(0);
+  std::vector<Chromosome*> tournamentPool;
+  tournamentPool = std::vector<Chromosome*>(0);
+  std::cout << "quick brasdasdx\n";
   for (unsigned i = 0; i < P; i++) {
+    std::cout << "ooh boy\n";
     static std::uniform_int_distribution<int> dist(0, pop_.size()-1);
+//    int index = dist(generator_);
+//    std::cout << index << "\n";
     tournamentPool.push_back(pop_[dist(generator_)]);
-  }
+//    tournamentPool.push_back(pop_[index]);
+   }
   // eliminate tournament chromosomes until there is only one left
   for (int size = tournamentPool.size(); size > 1; size=tournamentPool.size()) {
     // say i = 0. the 0th and 1st chromosomes stage a brutal fight to the

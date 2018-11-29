@@ -11,9 +11,7 @@
 
 
 //////////////////////////////////////////////////////////////////////////////
-Cities::Cities(const std::string& filename)
- : cities_()
-{
+Cities::Cities(const std::string& filename) : cities_() {
   std::ifstream inp(filename);
   if (inp.is_open()) {
     inp >> *this;
@@ -25,9 +23,7 @@ Cities::Cities(const std::string& filename)
 // cities reflects the original order of this class after reordering with
 // the given ordering. So for example, the ordering { 1, 0 } simply swaps
 // the first two elements (coordinates) in the new Cities object.
-Cities
-Cities::reorder(const permutation_t& ordering) const
-{
+Cities Cities::reorder(const permutation_t& ordering) const {
   Cities ret;
   for (auto i : ordering) {
     ret.cities_.push_back(cities_[i]);
@@ -39,11 +35,9 @@ Cities::reorder(const permutation_t& ordering) const
 // For a given permutation of the cities in this object,
 // compute how long (distance) it would take to traverse all the cities in the
 // order of the permutation, and then returning to the first city.
-// The distance between any two cities is computed as the Euclidean 
+// The distance between any two cities is computed as the Euclidean
 // distance on a plane between their coordinates.
-double
-Cities::total_path_distance(const permutation_t& ord) const
-{
+double Cities::total_path_distance(const permutation_t& ord) const {
   double sum = 0.;
   for (unsigned i = 1; i <= ord.size(); ++i) {
     const unsigned j = i % ord.size();
@@ -56,8 +50,7 @@ Cities::total_path_distance(const permutation_t& ord) const
 
 
 //////////////////////////////////////////////////////////////////////////////
-std::istream& operator>>(std::istream& is, Cities& cities)
-{
+std::istream& operator>>(std::istream& is, Cities& cities) {
   cities.cities_ = Cities::cities_t();
   Cities::coord_t city;
 
@@ -70,8 +63,7 @@ std::istream& operator>>(std::istream& is, Cities& cities)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-std::ostream& operator<<(std::ostream& os, const Cities& cities)
-{
+std::ostream& operator<<(std::ostream& os, const Cities& cities) {
   for (const auto& c : cities.cities_) {
     os << c.first << "\t" << c.second << "\n";
   }
@@ -80,20 +72,13 @@ std::ostream& operator<<(std::ostream& os, const Cities& cities)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-Cities::permutation_t
-random_permutation(unsigned len)
-{
+Cities::permutation_t random_permutation(unsigned len) {
   Cities::permutation_t ret(len);
   std::iota(ret.begin(), ret.end(), 0);
 
-  // Taken from my solution. Seed the random number generator with 6*9||2.
+  // Taken from my solution. Seed the random number generator with 538.
   static std::default_random_engine generator_ =
-                std::default_random_engine(422);
-
-/*  static std::random_device rd;  // Static so we don't initialize every time
-  // give it a random seed
-  static std::string seed = "Go CS221";
-  static std::mt19937 g(rd(seed));*/
+                std::default_random_engine(538);
 
   std::shuffle(ret.begin(), ret.end(), generator_);
   return ret;

@@ -20,11 +20,13 @@ Deme::Deme(const Cities* cities_ptr, unsigned pop_size, double mut_rate)
  : pop_(pop_size), mut_rate_(mut_rate)
 {
   // Create random Climb_Chromosomes and put into population vector
+  std::cout << "a deme is being constructed\n";
   for (auto& cp : pop_) {
     cp = new Climb_Chromosome(cities_ptr);
   }
   // Taken from my solution. Seed the random number generator with 6*9||0.
   generator_ = std::default_random_engine(420);
+  std::cout << "i am a deme constructor, my pop size is " << pop_.size()<<"\n";
 }
 
 // Clean up as necessary
