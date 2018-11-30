@@ -10,11 +10,12 @@
 
 #pragma once
 
-#include "cities.hh"
 #include <random>
+#include <utility>
+#include "cities.hh"
 
 class Chromosome {
-   // Disable public copying of objects for polymorphism:
+  // Disable public copying of objects for polymorphism:
   Chromosome(const Chromosome&) = delete;
   Chromosome(Chromosome&&) = delete;
   Chromosome& operator=(const Chromosome&) = delete;
@@ -60,8 +61,7 @@ class Chromosome {
     return order_;
   }
 
-  // Cross-pollination from my solution. Useful but I don't think it ever got
-  // used.
+  // Cross-pollination from my solution.
   // If the customer requests an operation on two chromosomes which point to
   // different cities, bad things are going to happen. This method allows the
   // customer to check for this. It is possible that the operation is still
@@ -71,7 +71,6 @@ class Chromosome {
   bool compare_cities_ptr(const Cities* const arg) const {
     return arg == cities_ptr_;
   }
-
 
  protected:
   // For an ordered set of parents, return a child using the ordered crossover.
@@ -99,4 +98,4 @@ class Chromosome {
 
   // A random number generator for the various methods
   std::default_random_engine generator_;
- };
+};

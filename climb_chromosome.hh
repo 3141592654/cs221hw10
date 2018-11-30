@@ -5,17 +5,17 @@
 
 #pragma once
 
+#include <random>
 #include "cities.hh"
 #include "chromosome.hh"
-#include <random>
 
 class Climb_Chromosome: public Chromosome {
  public:
   // Creation method for new Chromsomoe. Saves a copy of the cities and
   // generates a completely random permutation from a list of cities.
-   using Chromosome::Chromosome;
+  using Chromosome::Chromosome;
 
-   // Polymorphic creation method from an existing Chromosome.
+  // Polymorphic creation method from an existing Chromosome.
   // This method allocates memory for the newly created chromosome.
   // It is the caller's responsibility to free this memory.
   Chromosome* clone() const {

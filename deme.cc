@@ -3,21 +3,20 @@
  * travelling-salesperson problem.  A deme is a population of individuals.
  */
 
-#include "cities.hh"
-#include "climb_chromosome.hh"
-#include "deme.hh"
-
 #include <algorithm>
 #include <cassert>
 #include <numeric>
 #include <random>
 
+#include "cities.hh"
+#include "climb_chromosome.hh"
+#include "deme.hh"
+
 //////////////////////////////////////////////////////////////////////////////
 // Generate a Deme of the specified size with all-random chromosomes.
 // Also receives a mutation rate in the range [0-1].
 Deme::Deme(const Cities* cities_ptr, unsigned pop_size, double mut_rate)
- : pop_(pop_size), mut_rate_(mut_rate)
-{
+                                 : pop_(pop_size), mut_rate_(mut_rate) {
   // Create random Climb_Chromosomes and put into population vector
   for (auto& cp : pop_) {
     cp = new Climb_Chromosome(cities_ptr);
@@ -27,8 +26,7 @@ Deme::Deme(const Cities* cities_ptr, unsigned pop_size, double mut_rate)
 }
 
 // Clean up as necessary
-Deme::~Deme()
-{
+Deme::~Deme() {
   for (auto cp : pop_) {
     delete cp;
   }
@@ -42,8 +40,7 @@ Deme::~Deme()
 // Then, the pair is recombined once (using the recombine() method) to generate
 // a new pair of chromosomes, which are stored in the Deme.
 // After we've generated pop_size new chromosomes, we delete all the old ones.
-void Deme::compute_next_generation()
-{
+void Deme::compute_next_generation() {
   auto newpop = pop_;
   assert(pop_.size() % 2 == 0 && "Even population size required!");
   for (unsigned i = 0; i < pop_.size(); ) {
@@ -71,8 +68,7 @@ void Deme::compute_next_generation()
 
 //////////////////////////////////////////////////////////////////////////////
 // Return a copy of the chromosome with the highest fitness.
-const Chromosome* Deme::get_best() const
-{
+const Chromosome* Deme::get_best() const {
   assert(!pop_.empty());
   return *std::max_element(pop_.cbegin(), pop_.cend(), [](auto cp1, auto cp2){
       return cp1->get_fitness() < cp2->get_fitness(); });
@@ -82,8 +78,7 @@ const Chromosome* Deme::get_best() const
 // Randomly select a chromosome in the population based on fitness and
 // return a pointer to that chromosome.
 // Uses roulette-wheel selection
-Chromosome* Deme::select_parent()
-{
+Chromosome* Deme::select_parent() {
   // Figure out what the total sum of fitness in pop_ is:
   const double total_fitness = std::accumulate(pop_.cbegin(), pop_.cend(), 0.,
       [](double sum, auto cp){ return sum + cp->get_fitness(); });
@@ -92,13 +87,14 @@ Chromosome* Deme::select_parent()
   static std::uniform_real_distribution<> dist(0.0, 1);
   const double threshold = total_fitness * dist(generator_);
 
-  // Now, find the first chromosome whose partial sum of fitness exceeds threshold:
-  double fit_sum = 0.; // Total fitness so far
+  // Now, find the first chromosome whose partial sum of fitness exceeds
+  // threshold:
+  double fit_sum = 0.;  // Total fitness so far
 
   const auto it = std::find_if(pop_.cbegin(), pop_.cend(), [&](auto cp) {
         fit_sum += cp->get_fitness();
         return fit_sum >= threshold;
-   });
+  });
   assert(it != pop_.cend());
 
   return *it;

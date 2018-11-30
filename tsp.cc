@@ -4,15 +4,15 @@
  * of several solver algorithms on it and output the best result.
  */
 
-#include "cities.hh"
-#include "deme.hh"
-#include "tournament_deme.hh"
-
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <numeric>
+
+#include "cities.hh"
+#include "deme.hh"
+#include "tournament_deme.hh"
 
 //////////////////////////////////////////////////////////////////////////////
 // Check whether a specific ordering reduces the total path distance in cities
@@ -22,8 +22,7 @@
 bool is_improved(const Cities& cities,
                  const Cities::permutation_t& ordering,
                  double& best_dist,
-                 uint64_t iter)
-{
+                 uint64_t iter) {
   const auto dist = cities.total_path_distance(ordering);
   if (dist < best_dist) {
     std::cout << iter << "\t" << dist << std::endl;
@@ -36,8 +35,7 @@ bool is_improved(const Cities& cities,
 //////////////////////////////////////////////////////////////////////////////
 // exhaustive_search searches niter randomized operdinges on the given cities
 // The best cities permutation is returned.
-Cities::permutation_t randomized_search(const Cities& cities, uint64_t niter)
-{
+Cities::permutation_t randomized_search(const Cities& cities, uint64_t niter) {
   auto best_ordering = Cities::permutation_t(cities.size());
   auto best_dist = 1e100;
 
@@ -54,8 +52,7 @@ Cities::permutation_t randomized_search(const Cities& cities, uint64_t niter)
 //////////////////////////////////////////////////////////////////////////////
 // exhaustive_search searches every single permutation of the cities.
 // The best cities permutation is returned.
-Cities::permutation_t exhaustive_search(const Cities& cities)
-{
+Cities::permutation_t exhaustive_search(const Cities& cities) {
   auto ordering = Cities::permutation_t(cities.size());
   std::iota(ordering.begin(), ordering.end(), 0);
   auto best_ordering = ordering;
@@ -86,8 +83,7 @@ Cities::permutation_t exhaustive_search(const Cities& cities)
 Cities::permutation_t ga_search(const Cities& cities,
                                 unsigned iters,
                                 unsigned pop_size,
-                                double mutation_rate)
-{
+                                double mutation_rate) {
   auto best_dist = 1e100;
   auto best_ordering = Cities::permutation_t(cities.size());
 
@@ -100,9 +96,6 @@ Cities::permutation_t ga_search(const Cities& cities,
 
     // Find best individual in this population
     const auto ordering = deme.get_best()->get_ordering();
-//      const auto dist = cities.total_path_distance(ordering);
-
-//    std::cout << dist << "ln\n";
     if (is_improved(cities, ordering, best_dist, i * pop_size)) {
       best_ordering = ordering;
     }
@@ -112,10 +105,10 @@ Cities::permutation_t ga_search(const Cities& cities,
 
 
 //////////////////////////////////////////////////////////////////////////////
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
   if (argc != 4) {
-    std::cerr << "Required arguments: filename for cities, population size, and mutation rate\n";
+    std::cerr << "Required arguments: filename for cities, population size"
+      <<", and mutation rate\n";
     return -1;
   }
 
