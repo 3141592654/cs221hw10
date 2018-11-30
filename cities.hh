@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <random>
+#include <utility>
 
 // Representation of an ordering of cities
 class Cities {
@@ -18,8 +19,8 @@ class Cities {
   // An ordering of the cities in cities_t. Each value represents a unique index
   // into the current city ordering.
   using permutation_t = std::vector<unsigned int>;
- // Construct from explicit cities
 
+  // Construct from explicit cities
   Cities() = default;
   Cities(const std::vector<coord_t>& cities) : cities_(cities) {}
 
@@ -37,7 +38,7 @@ class Cities {
   // For a given permutation of the cities in this object,
   // compute how long (distance) it would take to traverse all the cities in the
   // order of the permutation, and then returning to the first city.
-  // The distance between any two cities is computed as the Euclidean 
+  // The distance between any two cities is computed as the Euclidean
   // distance on a plane between their coordinates.
   double total_path_distance(const permutation_t& ordering) const;
 
