@@ -4,3 +4,4 @@ Other notable design decisions. I seeded my random number generators with consta
 I largely started with Eitan's solution for last week. ga-baseline-soln.gif is the visualization of that genetic algorithm. ga-baseline.gif is the visualization I submitted last week.
 comparison_hill_climb.gif is comparison.gif plus the results of my final hill-climbing solution. The source for this is hillclimb.tsv.
 comparison.gif's results were obtained using pop_size = 16, mut_rate = 0.05.
+Extra credit used partially mapped crossover.
