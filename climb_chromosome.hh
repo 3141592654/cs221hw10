@@ -19,7 +19,9 @@ class Climb_Chromosome: public Chromosome {
   // This method allocates memory for the newly created chromosome.
   // It is the caller's responsibility to free this memory.
   Chromosome* clone() const {
-    return new Climb_Chromosome(cities_ptr_);
+    Climb_Chromosome* retval = new Climb_Chromosome(cities_ptr_);
+    retval->order_ = order_;
+    return retval;
   }
 
   // Perform a single mutation on this chromosome
